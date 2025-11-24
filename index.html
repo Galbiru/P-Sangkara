@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Sangkara - Pink Theme</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+        :root {
+            --pink-main: #ff6fa8;
+            --pink-soft: #ffd1e4;
+            --pink-deep: #e04584;
+            --white-soft: #fdf7fb;
+            --dark-text: #2b2030;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: 'Poppins', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            min-height: 100vh;
+            background:
+                radial-gradient(circle at top left, rgba(255, 182, 212, 0.9), transparent 55%),
+                radial-gradient(circle at bottom right, rgba(255, 255, 255, 0.9), transparent 55%),
+                linear-gradient(135deg, #ffe4f0 0%, #ffffff 30%, #ffd6ea 100%);
+            padding: 24px 12px 32px;
+            color: var(--dark-text);
+        }
+
+        .app-shell {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(9px);
+            border-radius: 26px;
+            box-shadow: 0 18px 40px rgba(230, 90, 150, 0.25);
+            border: 1px solid rgba(255, 182, 212, 0.8);
+            padding: 24px 18px 20px;
+        }
+
+        .fade-transition { transition: opacity 0.4s ease; }
+
+        /* WELCOME PAGE */
+        #welcome-page {
+            min-height: 70vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .welcome-tag {
+            letter-spacing: 0.25em;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: #a74f82;
+        }
+
+        .welcome-title {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 2.15rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-top: 0.75rem;
+            margin-bottom: 0.3rem;
+            color: #3b2236;
+        }
+
+        .welcome-sub {
+            font-size: 0.95rem;
+            color: #7c4c6a;
+        }
+
+        #start-btn {
+            margin-top: 1.9rem;
+            padding: 0.9rem 3rem;
+            border-radius: 999px;
+            border: none;
+            font-weight: 700;
+            font-size: 0.9rem;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            cursor: pointer;
+            background-image: linear-gradient(135deg, #ff6fa8 0%, #ff94c1 45%, #ff6fa8 100%);
+            background-size: 200% auto;
+            color: white;
+            box-shadow: 0 10px 25px rgba(226, 84, 145, 0.55);
+            transition:
+                background-position 0.4s ease,
+                transform 0.16s ease,
+                box-shadow 0.16s ease;
+        }
+
+        #start-btn:hover {
+            background-position: right center;
+            transform: translateY(-1px);
+            box-shadow: 0 14px 30px rgba(226, 84, 145, 0.65);
+        }
+
+        #start-btn:active {
+            transform: translateY(1px) scale(0.98);
+            box-shadow: 0 6px 16px rgba(226, 84, 145, 0.45);
+        }
+
+        /* MAIN HEADER */
+        .main-header {
+            text-align: center;
+            margin-bottom: 0.9rem;
+        }
+
+        .main-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.18em;
+            padding: 0.32rem 0.9rem;
+            border-radius: 999px;
+            background: rgba(255, 182, 212, 0.35);
+            border: 1px solid rgba(255, 143, 194, 0.95);
+            color: #a74f82;
+            margin-bottom: 0.5rem;
+        }
+
+        .main-title {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 1.55rem;
+            font-weight: 700;
+            color: #3a2237;
+        }
+
+        .datetime-wrapper {
+            display: flex;
+            justify-content: center;
+            margin-top: 0.4rem;
+            margin-bottom: 1rem;
+        }
+
+        .datetime {
+            font-size: 0.8rem;
+            color: #7e5872;
+            font-weight: 500;
+            background: #ffeaf4;
+            border-radius: 999px;
+            padding: 0.43rem 1.2rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        .clock-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 999px;
+            background: var(--pink-main);
+            box-shadow: 0 0 0 4px rgba(255, 155, 201, 0.35);
+        }
+
+        .top-actions {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.6rem;
+            flex-wrap: wrap;
+        }
+
+        .info-text {
+            font-size: 0.78rem;
+            color: #8b637e;
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        .info-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 999px;
+            background: var(--pink-deep);
+        }
+
+        /* TOMBOL EDIT USER DI POJOK KANAN ATAS (FIXED) */
+        #edit-users-btn {
+            position: fixed;
+            top: 12px;
+            right: 12px;
+            z-index: 50;
+            border-radius: 999px;
+            border: none;
+            padding: 0.5rem 1.1rem;
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: #fff;
+            background: linear-gradient(135deg, #ff6fa8, #ff93c0);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            cursor: pointer;
+            box-shadow: 0 7px 16px rgba(213, 83, 137, 0.4);
+        }
+
+        #edit-users-btn:hover {
+            filter: brightness(1.05);
+            transform: translateY(-1px);
+            box-shadow: 0 10px 20px rgba(213, 83, 137, 0.5);
+        }
+
+        .edit-btn-icon {
+            width: 16px;
+            height: 16px;
+            border-radius: 999px;
+            background: rgba(255,255,255,0.9);
+            color: #e04584;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* GRID USER */
+        .users-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 0.9rem;
+            margin-top: 0.6rem;
+            margin-bottom: 0.2rem;
+            max-height: calc(100vh - 270px);
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+
+        .users-grid::-webkit-scrollbar { width: 6px; }
+        .users-grid::-webkit-scrollbar-track {
+            background: #ffe6f2;
+            border-radius: 999px;
+        }
+        .users-grid::-webkit-scrollbar-thumb {
+            background: #ff9cc7;
+            border-radius: 999px;
+        }
+
+        /* KARTU USER – DESAIN + ANIMASI */
+        .user-card {
+            position: relative;
+            border-radius: 18px;
+            padding: 0.75rem 0.8rem;
+            background: radial-gradient(circle at top left, #ffbfdc, #ff8bbf);
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            color: #3a1123;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: space-between;
+            min-height: 86px;
+            overflow: hidden;
+
+            /* animasi utama */
+            opacity: 0;
+            transform: translateY(18px) scale(0.97);
+            box-shadow: 0 9px 18px rgba(225,103,157,0.40);
+            transition: transform 0.16s ease, box-shadow 0.16s ease;
+
+            animation-name: popIn, floatGlow;
+            animation-duration: 0.45s, 3.2s;
+            animation-timing-function: ease, ease-in-out;
+            animation-fill-mode: forwards, both;
+            animation-iteration-count: 1, infinite;
+            animation-delay: var(--stagger, 0s), 0.6s;
+        }
+
+        .user-card::before {
+            content: "";
+            position: absolute;
+            width: 120%;
+            height: 120%;
+            top: -60%;
+            right: -40%;
+            background: radial-gradient(circle, rgba(255,255,255,0.5), transparent 60%);
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        /* RIPPLE CLICK */
+        .user-card::after {
+            content: "";
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 10px;
+            height: 10px;
+            background: rgba(255,255,255,0.75);
+            border-radius: 999px;
+            transform: translate(-50%, -50%) scale(0);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .user-card:active::after {
+            animation: ripple 0.5s ease-out;
+        }
+
+        /* HOVER GLOW */
+        .user-card:hover {
+            transform: translateY(-3px) scale(1.01);
+            box-shadow:
+                0 13px 26px rgba(225, 103, 157, 0.55),
+                0 0 18px rgba(255, 120, 180, 0.55),
+                0 0 28px rgba(255, 160, 200, 0.45);
+        }
+
+        .user-card:active {
+            transform: translateY(1px) scale(0.99);
+            box-shadow: 0 6px 13px rgba(225, 103, 157, 0.38);
+        }
+
+        .user-card-header {
+            display: flex;
+            width: 100%;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.2rem;
+        }
+
+        .user-badge {
+            width: 32px;
+            height: 32px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: #e04584;
+            box-shadow: 0 2px 6px rgba(204, 63, 129, 0.35);
+        }
+
+        .user-name {
+            font-weight: 700;
+            font-size: 0.95rem;
+            max-width: 80px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .user-sub {
+            font-size: 0.7rem;
+            color: #5f2241;
+            opacity: 0.9;
+        }
+
+        .user-pill {
+            margin-top: 0.3rem;
+            font-size: 0.7rem;
+            padding: 0.2rem 0.55rem;
+            border-radius: 999px;
+            border: 1px dashed rgba(255, 255, 255, 0.9);
+            background: linear-gradient(90deg, rgba(255,255,255,0.65), rgba(255,255,255,0.35));
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .user-pill-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 999px;
+            background: #ff6fa8;
+        }
+
+        .footer-note {
+            margin-top: 0.5rem;
+            font-size: 0.72rem;
+            text-align: center;
+            color: #9a6a86;
+        }
+
+        /* EDIT PANEL */
+        .edit-panel-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(54, 7, 34, 0.45);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 60;
+        }
+
+        .edit-panel-backdrop.show { display: flex; }
+
+        .edit-panel {
+            width: 100%;
+            max-width: 420px;
+            background: #fff5fb;
+            border-radius: 20px;
+            border: 1px solid #ffc9e4;
+            box-shadow: 0 20px 48px rgba(112, 16, 61, 0.45);
+            padding: 16px 16px 14px;
+        }
+
+        .edit-panel-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #3a1830;
+            margin-bottom: 0.2rem;
+        }
+
+        .edit-panel-sub {
+            font-size: 0.8rem;
+            color: #85556e;
+            margin-bottom: 0.7rem;
+        }
+
+        .edit-users-list {
+            max-height: 260px;
+            overflow-y: auto;
+            padding-right: 4px;
+            margin-bottom: 0.7rem;
+        }
+
+        .edit-users-list::-webkit-scrollbar { width: 6px; }
+        .edit-users-list::-webkit-scrollbar-thumb {
+            background: #ff9cc7;
+            border-radius: 999px;
+        }
+
+        .edit-row {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.45rem;
+        }
+
+        .edit-label {
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: #7b3259;
+            width: 68px;
+            flex-shrink: 0;
+        }
+
+        .edit-input {
+            flex: 1;
+            border-radius: 999px;
+            border: 1px solid #ffc0df;
+            padding: 0.32rem 0.7rem;
+            font-size: 0.8rem;
+            outline: none;
+            background: #fff;
+        }
+
+        .edit-input:focus {
+            border-color: #ff6fa8;
+            box-shadow: 0 0 0 2px rgba(255, 152, 203, 0.4);
+        }
+
+        .edit-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.5rem;
+            margin-top: 0.1rem;
+        }
+
+        .btn-ghost {
+            border-radius: 999px;
+            border: 1px solid #e3b6cf;
+            background: transparent;
+            padding: 0.35rem 0.9rem;
+            font-size: 0.8rem;
+            cursor: pointer;
+            color: #814461;
+        }
+
+        .btn-primary {
+            border-radius: 999px;
+            border: none;
+            background: linear-gradient(135deg, #ff6fa8, #ff93c0);
+            padding: 0.38rem 1.1rem;
+            font-size: 0.8rem;
+            cursor: pointer;
+            font-weight: 600;
+            color: #fff;
+            box-shadow: 0 7px 16px rgba(223, 88, 146, 0.6);
+        }
+
+        .btn-primary:hover { filter: brightness(1.03); }
+
+        /* ANIMASI KEYFRAMES */
+        @keyframes popIn {
+            0% {
+                opacity: 0;
+                transform: translateY(18px) scale(0.9);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes floatGlow {
+            0% {
+                box-shadow: 0 9px 18px rgba(225,103,157,0.40);
+            }
+            50% {
+                box-shadow:
+                    0 12px 24px rgba(225,103,157,0.55),
+                    0 0 14px rgba(255,130,190,0.45);
+            }
+            100% {
+                box-shadow: 0 9px 18px rgba(225,103,157,0.40);
+            }
+        }
+
+        @keyframes ripple {
+            0% {
+                transform: translate(-50%, -50%) scale(0);
+                opacity: 0.7;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(18);
+                opacity: 0;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .app-shell { padding: 20px 14px 18px; }
+            .welcome-title { font-size: 1.8rem; }
+            .main-title { font-size: 1.35rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Tombol Edit User di pojok kanan atas -->
+    <button id="edit-users-btn" type="button">
+        <span class="edit-btn-icon">✎</span>
+        <span>Edit Nama User</span>
+    </button>
+
+    <div class="max-w-md mx-auto app-shell">
+        <!-- WELCOME PAGE -->
+        <div id="welcome-page" class="fade-transition" style="opacity: 1;">
+            <div class="welcome-tag">WELCOME TO</div>
+            <h1 class="welcome-title">Acorn Consultant<br>Project Sangkara</h1>
+            <p class="welcome-sub">
+                Project Sangkara • Akses survey terorganisir untuk setiap user.
+            </p>
+            <button id="start-btn">PRESS START TO CONTINUE</button>
+        </div>
+
+        <!-- MAIN VIEW -->
+        <div id="main-view" class="fade-transition" style="display:none; opacity:0;">
+            <div class="main-header">
+                <div class="main-pill">
+                    <span>PROJECT SANGKARA</span>
+                </div>
+                <h1 class="main-title">User Survey Panel</h1>
+                <div class="datetime-wrapper">
+                    <div class="datetime">
+                        <span class="clock-dot"></span>
+                        <span id="datetime-text"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="top-actions">
+                <div class="info-text">
+                    <span class="info-dot"></span>
+                    <span>Tap kartu user untuk membuka link survey</span>
+                </div>
+            </div>
+
+            <div id="users-grid" class="users-grid"></div>
+
+            <div class="footer-note">
+                Good luck!!!.
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL EDIT NAMA USER -->
+    <div id="edit-panel-backdrop" class="edit-panel-backdrop">
+        <div class="edit-panel">
+            <div class="edit-panel-title">Edit Nama User</div>
+            <div class="edit-panel-sub">
+                Gunakan untuk mengganti label <strong>User 1 – User 13</strong> sesuai kebutuhan.
+            </div>
+            <div id="edit-users-list" class="edit-users-list"></div>
+            <div class="edit-actions">
+                <button id="edit-cancel" class="btn-ghost" type="button">Batal</button>
+                <button id="edit-save" class="btn-primary" type="button">Simpan</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const SURVEY_LINK = "https://survey.xmfactory.com/survey?b=1025655&l=52472bf1b710780c";
+            const PASSWORD_EDIT = "Aco123";
+
+            const welcomePage = document.getElementById('welcome-page');
+            const startBtn = document.getElementById('start-btn');
+            const mainView = document.getElementById('main-view');
+            const usersGrid = document.getElementById('users-grid');
+            const datetimeText = document.getElementById('datetime-text');
+
+            const editBtn = document.getElementById('edit-users-btn');
+            const editBackdrop = document.getElementById('edit-panel-backdrop');
+            const editUsersList = document.getElementById('edit-users-list');
+            const editCancel = document.getElementById('edit-cancel');
+            const editSave = document.getElementById('edit-save');
+
+            // Data user default
+            const users = [];
+            for (let i = 1; i <= 13; i++) {
+                const id = `user${String(i).padStart(2, '0')}`;
+                users.push({
+                    id,
+                    name: `User ${i}`
+                });
+            }
+
+            // Load custom nama dari localStorage
+            const storedNames = JSON.parse(localStorage.getItem('sangkaraUserNames') || '{}');
+            if (storedNames && typeof storedNames === 'object') {
+                users.forEach(u => {
+                    if (storedNames[u.id]) {
+                        u.name = storedNames[u.id];
+                    }
+                });
+            }
+
+            // Render kartu user
+            function renderUserGrid() {
+                usersGrid.innerHTML = '';
+                users.forEach((user, index) => {
+                    const btn = document.createElement('button');
+                    btn.type = 'button';
+                    btn.className = 'user-card';
+                    btn.style.setProperty('--stagger', (index * 0.08) + 's');
+
+                    btn.innerHTML = `
+                        <div class="user-card-header">
+                            <div class="user-badge">#${index + 1}</div>
+                            <div style="text-align:right;">
+                                <div class="user-name" title="${user.name}">${user.name}</div>
+                                <div class="user-sub">Survey Sangkara</div>
+                            </div>
+                        </div>
+                        <div class="user-pill">
+                            <span class="user-pill-dot"></span>
+                            <span>Buka link survey</span>
+                        </div>
+                    `;
+
+                    btn.addEventListener('click', () => {
+                        window.open(SURVEY_LINK, '_blank', 'noopener,noreferrer');
+                    });
+
+                    usersGrid.appendChild(btn);
+                });
+            }
+
+            // Update datetime (Asia/Jakarta)
+            function updateDateTime() {
+                const now = new Date();
+                const options = {
+                    weekday: 'long',
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit',
+                    timeZone: 'Asia/Jakarta'
+                };
+                datetimeText.textContent = now.toLocaleString('id-ID', options);
+            }
+
+            // Transisi dari welcome ke main
+            startBtn.addEventListener('click', () => {
+                welcomePage.style.opacity = '0';
+                setTimeout(() => {
+                    welcomePage.style.display = 'none';
+                    mainView.style.display = 'block';
+                    requestAnimationFrame(() => {
+                        mainView.style.opacity = '1';
+                    });
+                }, 400);
+            });
+
+            // Buka panel edit (dengan password)
+            editBtn.addEventListener('click', () => {
+                const pwd = prompt('Masukkan password untuk mengedit nama user:');
+                if (pwd === null) return;
+                if (pwd !== PASSWORD_EDIT) {
+                    alert('Password salah.');
+                    return;
+                }
+                openEditPanel();
+            });
+
+            function openEditPanel() {
+                editUsersList.innerHTML = '';
+                users.forEach((user, index) => {
+                    const row = document.createElement('div');
+                    row.className = 'edit-row';
+                    row.innerHTML = `
+                        <div class="edit-label">User ${index + 1}</div>
+                        <input
+                            type="text"
+                            class="edit-input"
+                            data-id="${user.id}"
+                            value="${user.name}"
+                            maxlength="30"
+                        />
+                    `;
+                    editUsersList.appendChild(row);
+                });
+                editBackdrop.classList.add('show');
+            }
+
+            editCancel.addEventListener('click', () => {
+                editBackdrop.classList.remove('show');
+            });
+
+            editSave.addEventListener('click', () => {
+                const inputs = editUsersList.querySelectorAll('.edit-input');
+                const newNames = {};
+                inputs.forEach(input => {
+                    const id = input.getAttribute('data-id');
+                    let value = input.value.trim();
+                    if (!value) {
+                        const index = users.findIndex(u => u.id === id);
+                        value = `User ${index + 1}`;
+                        input.value = value;
+                    }
+                    newNames[id] = value;
+                });
+
+                localStorage.setItem('sangkaraUserNames', JSON.stringify(newNames));
+                users.forEach(u => {
+                    if (newNames[u.id]) {
+                        u.name = newNames[u.id];
+                    }
+                });
+
+                renderUserGrid();
+                editBackdrop.classList.remove('show');
+            });
+
+            // Tutup panel kalau klik di luar box
+            editBackdrop.addEventListener('click', (e) => {
+                if (e.target === editBackdrop) {
+                    editBackdrop.classList.remove('show');
+                }
+            });
+
+            // Inisialisasi
+            renderUserGrid();
+            updateDateTime();
+            setInterval(updateDateTime, 1000);
+        });
+    </script>
+</body>
+</html>
