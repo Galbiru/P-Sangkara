@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project Sangkara - Pink Theme</title>
+    <title>Project Shankara - Pink Theme</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap');
@@ -705,9 +705,9 @@
         <!-- WELCOME PAGE -->
         <div id="welcome-page" class="fade-transition" style="opacity: 1;">
             <div class="welcome-tag">WELCOME TO</div>
-            <h1 class="welcome-title">Acorn Consultant<br>Project Sangkara</h1>
+            <h1 class="welcome-title">Acorn Consultant<br>Project Shankara</h1>
             <p class="welcome-sub">
-                Project Sangkara • Akses survey terorganisir untuk setiap user.
+                Project Shankara • Akses survey terorganisir untuk setiap user.
             </p>
             <button id="start-btn">PRESS START TO CONTINUE</button>
         </div>
@@ -724,7 +724,7 @@
 
             <div class="main-header">
                 <div class="main-pill">
-                    <span>PROJECT SANGKARA</span>
+                    <span>PROJECT SHANKARA</span>
                 </div>
                 <h1 class="main-title">User Survey Panel</h1>
                 <div class="datetime-wrapper">
@@ -769,7 +769,7 @@
     <!-- MODAL EDIT USER + LINK -->
     <div id="edit-panel-backdrop" class="edit-panel-backdrop">
         <div class="edit-panel">
-            <div class="edit-panel-title">Kelola User Project Sangkara</div>
+            <div class="edit-panel-title">Kelola User Project Shankara</div>
             <div class="edit-panel-sub">
                 Edit nama user, pilih mode 1 link / multiple link, tambah atau hapus user. Minimal harus ada 1 user.
             </div>
@@ -792,7 +792,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             const DEFAULT_SURVEY_LINK = "https://survey.xmfactory.com/survey?b=1025655&l=52472bf1b710780c";
             const PASSWORD_EDIT = "Aco123";
-            const STORAGE_KEY = "sangkaraUsersV2";
+            const STORAGE_KEY = "shankaraUsersV2";
 
             const welcomePage = document.getElementById('welcome-page');
             const startBtn = document.getElementById('start-btn');
@@ -855,9 +855,9 @@
                     });
                 }
 
-                // Migrasi lama dari sangkaraUserNames kalau ada
+                // Migrasi lama dari shankaraUserNames kalau ada
                 try {
-                    const storedNames = JSON.parse(localStorage.getItem('sangkaraUserNames') || '{}');
+                    const storedNames = JSON.parse(localStorage.getItem('shankaraUserNames') || '{}');
                     if (storedNames && typeof storedNames === 'object') {
                         users.forEach(u => {
                             if (storedNames[u.id]) {
@@ -951,7 +951,7 @@
                             <div class="user-badge">#${index + 1}</div>
                             <div style="text-align:right;">
                                 <div class="user-name" title="${user.name}">${user.name}</div>
-                                <div class="user-sub">Survey Sangkara • ${modeLabel}</div>
+                                <div class="user-sub">Survey Shankara • ${modeLabel}</div>
                             </div>
                         </div>
                         <div class="user-pill">
@@ -1198,3 +1198,4 @@
     </script>
 </body>
 </html>
+
