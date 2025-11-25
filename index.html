@@ -183,7 +183,7 @@
             background: var(--pink-deep);
         }
 
-        /* BACK BUTTON (MAIN VIEW) */
+        /* BACK BUTTON (MAIN VIEW & LINKS VIEW) */
         .back-btn {
             border-radius: 999px;
             border: 1px solid #e3b6cf;
@@ -395,6 +395,60 @@
             color: #9a6a86;
         }
 
+        /* VIEW MULTIPLE LINKS */
+        #user-links-view {
+            display: none;
+            opacity: 0;
+        }
+
+        .links-body {
+            margin-top: 0.4rem;
+        }
+
+        .links-info {
+            font-size: 0.75rem;
+            color: #8b637e;
+            margin-bottom: 0.5rem;
+        }
+
+        .links-buttons {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0.45rem;
+        }
+
+        .link-btn {
+            border-radius: 14px;
+            border: 1px solid rgba(255, 182, 212, 0.9);
+            background:
+                radial-gradient(circle at top left, rgba(255, 182, 212, 0.4), transparent 60%),
+                linear-gradient(135deg, #ffffff, #ffeaf4);
+            color: #3a1830;
+            padding: 0.45rem 0.8rem;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            box-shadow: 0 6px 14px rgba(225, 103, 157, 0.25);
+        }
+
+        .link-btn span.url-label {
+            font-weight: 500;
+        }
+
+        .link-btn span.url-small {
+            font-size: 0.7rem;
+            color: #7c4c6a;
+            opacity: 0.9;
+        }
+
+        .link-btn:hover {
+            box-shadow:
+                0 10px 22px rgba(225, 103, 157, 0.35),
+                0 0 16px rgba(255, 160, 200, 0.3);
+        }
+
         /* EDIT PANEL */
         .edit-panel-backdrop {
             position: fixed;
@@ -455,17 +509,22 @@
         }
 
         .edit-row {
+            padding: 0.35rem 0;
+            border-bottom: 1px dashed #f9c3dd;
+        }
+
+        .edit-row-top {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
-            margin-bottom: 0.45rem;
+            gap: 0.4rem;
+            margin-bottom: 0.3rem;
         }
 
         .edit-label {
             font-size: 0.78rem;
             font-weight: 600;
             color: #7b3259;
-            width: 68px;
+            width: 70px;
             flex-shrink: 0;
         }
 
@@ -482,6 +541,67 @@
         .edit-input:focus {
             border-color: #ff6fa8;
             box-shadow: 0 0 0 2px rgba(255, 152, 203, 0.4);
+        }
+
+        .btn-delete-inline {
+            border-radius: 999px;
+            border: 1px solid #fda4af;
+            background: #fff0f3;
+            padding: 0.25rem 0.6rem;
+            font-size: 0.75rem;
+            color: #b91c1c;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .btn-delete-inline:hover {
+            background: #fee2e2;
+        }
+
+        .edit-row-bottom {
+            display: grid;
+            grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.1fr) minmax(0, 1.6fr);
+            gap: 0.35rem;
+            align-items: flex-start;
+            margin-top: 0.1rem;
+        }
+
+        .link-mode-select {
+            width: 100%;
+            border-radius: 999px;
+            border: 1px solid #ffc0df;
+            background: #fff;
+            color: #3a1830;
+            font-size: 0.75rem;
+            padding: 0.25rem 0.4rem;
+        }
+
+        .link-single-input {
+            border-radius: 999px;
+            border: 1px solid #ffc0df;
+            background: #fff;
+            color: #3a1830;
+            font-size: 0.75rem;
+            padding: 0.3rem 0.5rem;
+            width: 100%;
+        }
+
+        .link-multi-textarea {
+            border-radius: 10px;
+            border: 1px solid #ffc0df;
+            background: #fff;
+            color: #3a1830;
+            font-size: 0.75rem;
+            padding: 0.3rem 0.5rem;
+            width: 100%;
+            resize: vertical;
+            min-height: 54px;
+        }
+
+        .link-multi-hint {
+            font-size: 0.7rem;
+            color: #9ca3af;
+            margin-top: 2px;
         }
 
         .edit-actions {
@@ -528,21 +648,6 @@
 
         .btn-add-user:hover {
             filter: brightness(1.03);
-        }
-
-        .btn-delete-inline {
-            border-radius: 999px;
-            border: 1px solid #fda4af;
-            background: #fff0f3;
-            padding: 0.25rem 0.6rem;
-            font-size: 0.75rem;
-            color: #b91c1c;
-            cursor: pointer;
-            flex-shrink: 0;
-        }
-
-        .btn-delete-inline:hover {
-            background: #fee2e2;
         }
 
         /* ANIMASI KEYFRAMES */
@@ -593,7 +698,7 @@
     <!-- Tombol Edit User di pojok kanan atas -->
     <button id="edit-users-btn" type="button">
         <span class="edit-btn-icon">✎</span>
-        <span>Edit Nama User</span>
+        <span>Edit User</span>
     </button>
 
     <div class="max-w-md mx-auto app-shell">
@@ -636,19 +741,42 @@
                 Good luck!!!.
             </div>
         </div>
+
+        <!-- VIEW MULTIPLE LINKS PER USER -->
+        <div id="user-links-view" class="fade-transition" style="display:none; opacity:0;">
+            <div class="top-actions">
+                <button id="back-from-links" class="back-btn" type="button">← Kembali</button>
+                <div class="info-text">
+                    <span class="info-dot"></span>
+                    <span>Pilih salah satu link berikut untuk user ini</span>
+                </div>
+            </div>
+
+            <div class="main-header" style="margin-bottom:0.6rem;">
+                <div class="main-pill">
+                    <span>LINK USER</span>
+                </div>
+                <h1 class="main-title" id="links-user-name">User</h1>
+            </div>
+
+            <div class="links-body">
+                <div class="links-info" id="links-info-text"></div>
+                <div id="links-buttons-container" class="links-buttons"></div>
+            </div>
+        </div>
     </div>
 
-    <!-- MODAL EDIT NAMA USER -->
+    <!-- MODAL EDIT USER + LINK -->
     <div id="edit-panel-backdrop" class="edit-panel-backdrop">
         <div class="edit-panel">
-            <div class="edit-panel-title">Edit Nama User</div>
+            <div class="edit-panel-title">Kelola User Project Sangkara</div>
             <div class="edit-panel-sub">
-                Ganti label user, tambahkan, atau hapus user. Minimal harus ada 1 user.
+                Edit nama user, pilih mode 1 link / multiple link, tambah atau hapus user. Minimal harus ada 1 user.
             </div>
 
             <div class="edit-toolbar">
                 <button id="add-user-btn" class="btn-add-user" type="button">＋ Tambah User</button>
-                <span>Perubahan hanya tersimpan di perangkat ini.</span>
+                <span>Multiple link: isi 1 URL per baris.</span>
             </div>
 
             <div id="edit-users-list" class="edit-users-list"></div>
@@ -662,14 +790,17 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const SURVEY_LINK = "https://survey.xmfactory.com/survey?b=1025655&l=52472bf1b710780c";
+            const DEFAULT_SURVEY_LINK = "https://survey.xmfactory.com/survey?b=1025655&l=52472bf1b710780c";
             const PASSWORD_EDIT = "Aco123";
-            const STORAGE_KEY = "sangkaraUsers";
+            const STORAGE_KEY = "sangkaraUsersV2";
 
             const welcomePage = document.getElementById('welcome-page');
             const startBtn = document.getElementById('start-btn');
             const mainView = document.getElementById('main-view');
             const backBtn = document.getElementById('back-btn');
+            const userLinksView = document.getElementById('user-links-view');
+            const backFromLinks = document.getElementById('back-from-links');
+
             const usersGrid = document.getElementById('users-grid');
             const datetimeText = document.getElementById('datetime-text');
 
@@ -680,7 +811,23 @@
             const editSave = document.getElementById('edit-save');
             const addUserBtn = document.getElementById('add-user-btn');
 
+            const linksUserName = document.getElementById('links-user-name');
+            const linksInfoText = document.getElementById('links-info-text');
+            const linksButtonsContainer = document.getElementById('links-buttons-container');
+
             let users = [];
+            let currentLinksUser = null;
+
+            function normalizeUser(u, index) {
+                return {
+                    id: u.id || `user${String(index + 1).padStart(2, '0')}`,
+                    name: u.name || `User ${index + 1}`,
+                    mode: (u.mode === 'multi' || u.mode === 'single') ? u.mode : 'single',
+                    links: Array.isArray(u.links) && u.links.length > 0
+                        ? u.links
+                        : [DEFAULT_SURVEY_LINK]
+                };
+            }
 
             function initUsers() {
                 const storedUsersRaw = localStorage.getItem(STORAGE_KEY);
@@ -688,7 +835,7 @@
                     try {
                         const parsed = JSON.parse(storedUsersRaw);
                         if (Array.isArray(parsed) && parsed.length > 0) {
-                            users = parsed;
+                            users = parsed.map(normalizeUser);
                             return;
                         }
                     } catch (e) {
@@ -702,11 +849,13 @@
                     const id = `user${String(i).padStart(2, '0')}`;
                     users.push({
                         id,
-                        name: `User ${i}`
+                        name: `User ${i}`,
+                        mode: 'single',
+                        links: [DEFAULT_SURVEY_LINK]
                     });
                 }
 
-                // Migrasi lama (kalau ada sangkaraUserNames)
+                // Migrasi lama dari sangkaraUserNames kalau ada
                 try {
                     const storedNames = JSON.parse(localStorage.getItem('sangkaraUserNames') || '{}');
                     if (storedNames && typeof storedNames === 'object') {
@@ -718,12 +867,72 @@
                     }
                 } catch (e) {}
 
-                localStorage.setItem(STORAGE_KEY, JSON.stringify(users));
+                saveUsers();
             }
 
             function saveUsers() {
                 localStorage.setItem(STORAGE_KEY, JSON.stringify(users));
             }
+
+            function handleUserClick(user) {
+                if (!user || !Array.isArray(user.links) || user.links.length === 0) {
+                    alert('User ini belum memiliki link, silakan atur di menu Edit User.');
+                    return;
+                }
+
+                if (user.mode === 'multi' && user.links.length > 0) {
+                    openLinksView(user);
+                } else {
+                    const url = user.links[0] || DEFAULT_SURVEY_LINK;
+                    window.open(url, '_blank', 'noopener,noreferrer');
+                }
+            }
+
+            function openLinksView(user) {
+                currentLinksUser = user;
+                linksUserName.textContent = user.name;
+                linksInfoText.textContent = `Total link untuk ${user.name}: ${user.links.length}.`;
+
+                linksButtonsContainer.innerHTML = '';
+                user.links.forEach((url, idx) => {
+                    const btn = document.createElement('button');
+                    btn.type = 'button';
+                    btn.className = 'link-btn';
+
+                    const shortUrl = url.length > 40 ? url.slice(0, 37) + '...' : url;
+
+                    btn.innerHTML = `
+                        <span class="url-label">Link ${idx + 1}</span>
+                        <span class="url-small">${shortUrl}</span>
+                    `;
+
+                    btn.addEventListener('click', () => {
+                        window.open(url, '_blank', 'noopener,noreferrer');
+                    });
+
+                    linksButtonsContainer.appendChild(btn);
+                });
+
+                mainView.style.opacity = '0';
+                setTimeout(() => {
+                    mainView.style.display = 'none';
+                    userLinksView.style.display = 'block';
+                    requestAnimationFrame(() => {
+                        userLinksView.style.opacity = '1';
+                    });
+                }, 300);
+            }
+
+            backFromLinks.addEventListener('click', () => {
+                userLinksView.style.opacity = '0';
+                setTimeout(() => {
+                    userLinksView.style.display = 'none';
+                    mainView.style.display = 'block';
+                    requestAnimationFrame(() => {
+                        mainView.style.opacity = '1';
+                    });
+                }, 300);
+            });
 
             // Render kartu user
             function renderUserGrid() {
@@ -734,22 +943,25 @@
                     btn.className = 'user-card';
                     btn.style.setProperty('--stagger', (index * 0.08) + 's');
 
+                    const modeLabel = user.mode === 'multi' ? 'Multiple link' : 'Single link';
+                    const pillText = user.mode === 'multi' ? 'Lihat semua link' : 'Buka link survey';
+
                     btn.innerHTML = `
                         <div class="user-card-header">
                             <div class="user-badge">#${index + 1}</div>
                             <div style="text-align:right;">
                                 <div class="user-name" title="${user.name}">${user.name}</div>
-                                <div class="user-sub">Survey Sangkara</div>
+                                <div class="user-sub">Survey Sangkara • ${modeLabel}</div>
                             </div>
                         </div>
                         <div class="user-pill">
                             <span class="user-pill-dot"></span>
-                            <span>Buka link survey</span>
+                            <span>${pillText}</span>
                         </div>
                     `;
 
                     btn.addEventListener('click', () => {
-                        window.open(SURVEY_LINK, '_blank', 'noopener,noreferrer');
+                        handleUserClick(user);
                     });
 
                     usersGrid.appendChild(btn);
@@ -789,6 +1001,7 @@
                 mainView.style.opacity = '0';
                 setTimeout(() => {
                     mainView.style.display = 'none';
+                    userLinksView.style.display = 'none';
                     welcomePage.style.display = 'block';
                     requestAnimationFrame(() => {
                         welcomePage.style.opacity = '1';
@@ -798,7 +1011,7 @@
 
             // Buka panel edit (dengan password)
             editBtn.addEventListener('click', () => {
-                const pwd = prompt('Masukkan password untuk mengedit nama user:');
+                const pwd = prompt('Masukkan password untuk mengelola user:');
                 if (pwd === null) return;
                 if (pwd !== PASSWORD_EDIT) {
                     alert('Password salah.');
@@ -807,28 +1020,84 @@
                 openEditPanel();
             });
 
-            function openEditPanel() {
+            function rebuildEditList() {
                 editUsersList.innerHTML = '';
                 users.forEach((user, index) => {
                     const row = document.createElement('div');
                     row.className = 'edit-row';
+
+                    const linksForMulti = user.links.join('\n');
+                    const singleLink = user.links[0] || DEFAULT_SURVEY_LINK;
+
                     row.innerHTML = `
-                        <div class="edit-label">User ${index + 1}</div>
-                        <input
-                            type="text"
-                            class="edit-input"
-                            data-id="${user.id}"
-                            value="${user.name}"
-                            maxlength="30"
-                        />
-                        <button
-                            type="button"
-                            class="btn-delete-inline"
-                            data-id="${user.id}"
-                        >Hapus</button>
+                        <div class="edit-row-top">
+                            <div class="edit-label">User ${index + 1}</div>
+                            <input
+                                type="text"
+                                class="edit-input name-input"
+                                data-id="${user.id}"
+                                value="${user.name}"
+                                maxlength="30"
+                            />
+                            <button
+                                type="button"
+                                class="btn-delete-inline"
+                                data-id="${user.id}"
+                            >Hapus</button>
+                        </div>
+                        <div class="edit-row-bottom">
+                            <div>
+                                <select class="link-mode-select" data-id="${user.id}">
+                                    <option value="single">1 Link</option>
+                                    <option value="multi">Multiple Link</option>
+                                </select>
+                            </div>
+                            <div>
+                                <input
+                                    type="text"
+                                    class="link-single-input"
+                                    data-id="${user.id}"
+                                    placeholder="https://..."
+                                />
+                            </div>
+                            <div>
+                                <textarea
+                                    class="link-multi-textarea"
+                                    data-id="${user.id}"
+                                    placeholder="Satu link per baris"
+                                ></textarea>
+                                <div class="link-multi-hint">Multi link: isi beberapa URL, tiap baris satu.</div>
+                            </div>
+                        </div>
                     `;
+
                     editUsersList.appendChild(row);
+
+                    const modeSelect = row.querySelector('.link-mode-select');
+                    const singleInput = row.querySelector('.link-single-input');
+                    const multiTextarea = row.querySelector('.link-multi-textarea');
+
+                    modeSelect.value = user.mode || 'single';
+                    singleInput.value = singleLink;
+                    multiTextarea.value = linksForMulti;
+
+                    function applyModeUI() {
+                        if (modeSelect.value === 'multi') {
+                            singleInput.style.display = 'none';
+                            multiTextarea.style.display = 'block';
+                        } else {
+                            singleInput.style.display = 'block';
+                            multiTextarea.style.display = 'none';
+                        }
+                    }
+
+                    applyModeUI();
+                    modeSelect.addEventListener('change', applyModeUI);
                 });
+            }
+
+            function openEditPanel() {
+                rebuildEditList();
                 editBackdrop.classList.add('show');
             }
 
@@ -837,10 +1106,12 @@
                 const newIndex = users.length + 1;
                 const newUser = {
                     id: `user${Date.now()}`,
-                    name: `User ${newIndex}`
+                    name: `User ${newIndex}`,
+                    mode: 'single',
+                    links: [DEFAULT_SURVEY_LINK]
                 };
                 users.push(newUser);
-                openEditPanel(); // refresh list
+                rebuildEditList();
             });
 
             // Hapus user (delegasi event)
@@ -852,7 +1123,7 @@
                         return;
                     }
                     users = users.filter(u => u.id !== id);
-                    openEditPanel();
+                    rebuildEditList();
                 }
             });
 
@@ -861,21 +1132,51 @@
             });
 
             editSave.addEventListener('click', () => {
-                const inputs = editUsersList.querySelectorAll('.edit-input');
-                inputs.forEach(input => {
-                    const id = input.getAttribute('data-id');
-                    let value = input.value.trim();
-                    const user = users.find(u => u.id === id);
-                    if (user) {
-                        if (!value) {
-                            const idx = users.indexOf(user);
-                            value = `User ${idx + 1}`;
-                            input.value = value;
-                        }
-                        user.name = value;
+                const rows = editUsersList.querySelectorAll('.edit-row');
+                const updated = [];
+
+                rows.forEach(row => {
+                    const nameInput = row.querySelector('.name-input');
+                    const id = nameInput.getAttribute('data-id');
+                    let name = nameInput.value.trim();
+
+                    if (!name) {
+                        const idx = updated.length;
+                        name = `User ${idx + 1}`;
+                        nameInput.value = name;
                     }
+
+                    const modeSelect = row.querySelector('.link-mode-select');
+                    const modeValue = modeSelect.value === 'multi' ? 'multi' : 'single';
+
+                    const singleInput = row.querySelector('.link-single-input');
+                    const multiTextarea = row.querySelector('.link-multi-textarea');
+
+                    let links = [];
+                    if (modeValue === 'multi') {
+                        const lines = multiTextarea.value.split('\n')
+                            .map(l => l.trim())
+                            .filter(l => l.length > 0);
+                        if (lines.length === 0) {
+                            links = [DEFAULT_SURVEY_LINK];
+                        } else {
+                            links = lines;
+                        }
+                    } else {
+                        let url = singleInput.value.trim();
+                        if (!url) url = DEFAULT_SURVEY_LINK;
+                        links = [url];
+                    }
+
+                    updated.push({
+                        id,
+                        name,
+                        mode: modeValue,
+                        links
+                    });
                 });
 
+                users = updated.map(normalizeUser);
                 saveUsers();
                 renderUserGrid();
                 editBackdrop.classList.remove('show');
