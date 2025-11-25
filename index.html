@@ -3,17 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project Shankara - Pink Theme</title>
+    <title>Project Shankara - Soft Pink</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap');
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
 
         :root {
-            --pink-main: #ff6fa8;
-            --pink-soft: #ffd1e4;
-            --pink-deep: #e04584;
-            --white-soft: #fdf7fb;
+            /* Soft pink pastel */
+            --pink-main: #ffb7d5;
+            --pink-soft: #ffe7f3;
+            --pink-deep: #e56a9a;
+            --white-soft: #fdf9fc;
             --dark-text: #2b2030;
         }
 
@@ -23,19 +24,19 @@
             font-family: 'Poppins', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
             min-height: 100vh;
             background:
-                radial-gradient(circle at top left, rgba(255, 182, 212, 0.9), transparent 55%),
-                radial-gradient(circle at bottom right, rgba(255, 255, 255, 0.9), transparent 55%),
-                linear-gradient(135deg, #ffe4f0 0%, #ffffff 30%, #ffd6ea 100%);
+                radial-gradient(circle at top left, rgba(255, 220, 238, 0.9), transparent 55%),
+                radial-gradient(circle at bottom right, rgba(255, 244, 251, 0.9), transparent 55%),
+                linear-gradient(135deg, #fffafb 0%, #fffdfd 40%, #ffeef7 100%);
             padding: 24px 12px 32px;
             color: var(--dark-text);
         }
 
         .app-shell {
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 255, 255, 0.96);
             backdrop-filter: blur(9px);
             border-radius: 26px;
-            box-shadow: 0 18px 40px rgba(230, 90, 150, 0.25);
-            border: 1px solid rgba(255, 182, 212, 0.8);
+            box-shadow: 0 16px 36px rgba(210, 120, 160, 0.18);
+            border: 1px solid rgba(255, 210, 230, 0.9);
             padding: 24px 18px 20px;
         }
 
@@ -55,12 +56,12 @@
             letter-spacing: 0.25em;
             font-size: 0.75rem;
             text-transform: uppercase;
-            color: #a74f82;
+            color: #b06b93;
         }
 
         .welcome-title {
             font-family: 'Roboto Mono', monospace;
-            font-size: 2.15rem;
+            font-size: 2.05rem;
             font-weight: 700;
             line-height: 1.2;
             margin-top: 0.75rem;
@@ -70,7 +71,7 @@
 
         .welcome-sub {
             font-size: 0.95rem;
-            color: #7c4c6a;
+            color: #855172;
         }
 
         #start-btn {
@@ -83,10 +84,10 @@
             letter-spacing: 0.16em;
             text-transform: uppercase;
             cursor: pointer;
-            background-image: linear-gradient(135deg, #ff6fa8 0%, #ff94c1 45%, #ff6fa8 100%);
+            background-image: linear-gradient(135deg, #ffb7d5 0%, #ffd0e5 45%, #ffb7d5 100%);
             background-size: 200% auto;
-            color: white;
-            box-shadow: 0 10px 25px rgba(226, 84, 145, 0.55);
+            color: #fff;
+            box-shadow: 0 8px 22px rgba(216, 120, 165, 0.35);
             transition:
                 background-position 0.4s ease,
                 transform 0.16s ease,
@@ -96,12 +97,12 @@
         #start-btn:hover {
             background-position: right center;
             transform: translateY(-1px);
-            box-shadow: 0 14px 30px rgba(226, 84, 145, 0.65);
+            box-shadow: 0 12px 28px rgba(216, 120, 165, 0.4);
         }
 
         #start-btn:active {
             transform: translateY(1px) scale(0.98);
-            box-shadow: 0 6px 16px rgba(226, 84, 145, 0.45);
+            box-shadow: 0 5px 14px rgba(216, 120, 165, 0.3);
         }
 
         /* MAIN HEADER */
@@ -119,9 +120,9 @@
             letter-spacing: 0.18em;
             padding: 0.32rem 0.9rem;
             border-radius: 999px;
-            background: rgba(255, 182, 212, 0.35);
-            border: 1px solid rgba(255, 143, 194, 0.95);
-            color: #a74f82;
+            background: rgba(255, 231, 243, 0.9);
+            border: 1px solid rgba(255, 206, 232, 0.95);
+            color: #b06b93;
             margin-bottom: 0.5rem;
         }
 
@@ -143,12 +144,13 @@
             font-size: 0.8rem;
             color: #7e5872;
             font-weight: 500;
-            background: #ffeaf4;
+            background: #fff3f9;
             border-radius: 999px;
             padding: 0.43rem 1.2rem;
             display: inline-flex;
             align-items: center;
             gap: 0.35rem;
+            border: 1px solid rgba(248, 216, 234, 0.9);
         }
 
         .clock-dot {
@@ -156,7 +158,7 @@
             height: 8px;
             border-radius: 999px;
             background: var(--pink-main);
-            box-shadow: 0 0 0 4px rgba(255, 155, 201, 0.35);
+            box-shadow: 0 0 0 4px rgba(255, 206, 232, 0.5);
         }
 
         .top-actions {
@@ -186,7 +188,7 @@
         /* BACK BUTTON (MAIN VIEW & LINKS VIEW) */
         .back-btn {
             border-radius: 999px;
-            border: 1px solid #e3b6cf;
+            border: 1px solid #efd3e2;
             background: #fff;
             padding: 0.3rem 0.8rem;
             font-size: 0.78rem;
@@ -197,7 +199,7 @@
             gap: 0.3rem;
         }
         .back-btn:hover {
-            background: #fff0f7;
+            background: #fff7fb;
         }
 
         /* TOMBOL EDIT USER DI POJOK KANAN ATAS (FIXED) */
@@ -212,26 +214,26 @@
             font-size: 0.78rem;
             font-weight: 600;
             color: #fff;
-            background: linear-gradient(135deg, #ff6fa8, #ff93c0);
+            background: linear-gradient(135deg, #ffb7d5, #ffd0e5);
             display: inline-flex;
             align-items: center;
             gap: 0.3rem;
             cursor: pointer;
-            box-shadow: 0 7px 16px rgba(213, 83, 137, 0.4);
+            box-shadow: 0 7px 16px rgba(210, 120, 160, 0.35);
         }
 
         #edit-users-btn:hover {
             filter: brightness(1.05);
             transform: translateY(-1px);
-            box-shadow: 0 10px 20px rgba(213, 83, 137, 0.5);
+            box-shadow: 0 10px 20px rgba(210, 120, 160, 0.42);
         }
 
         .edit-btn-icon {
             width: 16px;
             height: 16px;
             border-radius: 999px;
-            background: rgba(255,255,255,0.9);
-            color: #e04584;
+            background: rgba(255,255,255,0.95);
+            color: #e56a9a;
             font-size: 0.7rem;
             display: flex;
             align-items: center;
@@ -252,11 +254,11 @@
 
         .users-grid::-webkit-scrollbar { width: 6px; }
         .users-grid::-webkit-scrollbar-track {
-            background: #ffe6f2;
+            background: #fff3f9;
             border-radius: 999px;
         }
         .users-grid::-webkit-scrollbar-thumb {
-            background: #ff9cc7;
+            background: #ffc5e0;
             border-radius: 999px;
         }
 
@@ -265,8 +267,8 @@
             position: relative;
             border-radius: 18px;
             padding: 0.75rem 0.8rem;
-            background: radial-gradient(circle at top left, #ffbfdc, #ff8bbf);
-            border: 1px solid rgba(255, 255, 255, 0.9);
+            background: radial-gradient(circle at top left, #ffe3f1, #ffcfe6);
+            border: 1px solid rgba(255, 255, 255, 0.95);
             color: #3a1123;
             cursor: pointer;
             display: flex;
@@ -278,7 +280,7 @@
 
             opacity: 0;
             transform: translateY(18px) scale(0.97);
-            box-shadow: 0 9px 18px rgba(225,103,157,0.40);
+            box-shadow: 0 7px 16px rgba(212, 135, 169, 0.35);
             transition: transform 0.16s ease, box-shadow 0.16s ease;
 
             animation-name: popIn, floatGlow;
@@ -296,8 +298,8 @@
             height: 120%;
             top: -60%;
             right: -40%;
-            background: radial-gradient(circle, rgba(255,255,255,0.5), transparent 60%);
-            opacity: 0.7;
+            background: radial-gradient(circle, rgba(255,255,255,0.7), transparent 60%);
+            opacity: 0.9;
             pointer-events: none;
         }
 
@@ -308,7 +310,7 @@
             top: 50%;
             width: 10px;
             height: 10px;
-            background: rgba(255,255,255,0.75);
+            background: rgba(255,255,255,0.9);
             border-radius: 999px;
             transform: translate(-50%, -50%) scale(0);
             opacity: 0;
@@ -322,14 +324,13 @@
         .user-card:hover {
             transform: translateY(-3px) scale(1.01);
             box-shadow:
-                0 13px 26px rgba(225, 103, 157, 0.55),
-                0 0 18px rgba(255, 120, 180, 0.55),
-                0 0 28px rgba(255, 160, 200, 0.45);
+                0 11px 22px rgba(212, 135, 169, 0.4),
+                0 0 18px rgba(255, 200, 225, 0.5);
         }
 
         .user-card:active {
             transform: translateY(1px) scale(0.99);
-            box-shadow: 0 6px 13px rgba(225, 103, 157, 0.38);
+            box-shadow: 0 5px 12px rgba(212, 135, 169, 0.32);
         }
 
         .user-card-header {
@@ -344,14 +345,14 @@
             width: 32px;
             height: 32px;
             border-radius: 999px;
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.96);
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 0.7rem;
             font-weight: 700;
-            color: #e04584;
-            box-shadow: 0 2px 6px rgba(204, 63, 129, 0.35);
+            color: #e56a9a;
+            box-shadow: 0 2px 5px rgba(200, 110, 150, 0.25);
         }
 
         .user-name {
@@ -374,8 +375,8 @@
             font-size: 0.7rem;
             padding: 0.2rem 0.55rem;
             border-radius: 999px;
-            border: 1px dashed rgba(255, 255, 255, 0.9);
-            background: linear-gradient(90deg, rgba(255,255,255,0.65), rgba(255,255,255,0.35));
+            border: 1px dashed rgba(255, 255, 255, 0.95);
+            background: linear-gradient(90deg, rgba(255,255,255,0.8), rgba(255,255,255,0.5));
             display: inline-flex;
             align-items: center;
             gap: 0.3rem;
@@ -385,7 +386,7 @@
             width: 7px;
             height: 7px;
             border-radius: 999px;
-            background: #ff6fa8;
+            background: #ffb7d5;
         }
 
         .footer-note {
@@ -419,10 +420,10 @@
 
         .link-btn {
             border-radius: 14px;
-            border: 1px solid rgba(255, 182, 212, 0.9);
+            border: 1px solid rgba(255, 220, 238, 0.95);
             background:
-                radial-gradient(circle at top left, rgba(255, 182, 212, 0.4), transparent 60%),
-                linear-gradient(135deg, #ffffff, #ffeaf4);
+                radial-gradient(circle at top left, rgba(255, 220, 238, 0.7), transparent 60%),
+                linear-gradient(135deg, #ffffff, #fff6fb);
             color: #3a1830;
             padding: 0.45rem 0.8rem;
             font-size: 0.8rem;
@@ -430,7 +431,7 @@
             align-items: center;
             justify-content: space-between;
             cursor: pointer;
-            box-shadow: 0 6px 14px rgba(225, 103, 157, 0.25);
+            box-shadow: 0 6px 14px rgba(210, 120, 160, 0.3);
         }
 
         .link-btn span.url-label {
@@ -445,15 +446,15 @@
 
         .link-btn:hover {
             box-shadow:
-                0 10px 22px rgba(225, 103, 157, 0.35),
-                0 0 16px rgba(255, 160, 200, 0.3);
+                0 10px 20px rgba(210, 120, 160, 0.35),
+                0 0 16px rgba(255, 210, 235, 0.4);
         }
 
         /* EDIT PANEL */
         .edit-panel-backdrop {
             position: fixed;
             inset: 0;
-            background: rgba(54, 7, 34, 0.45);
+            background: rgba(54, 7, 34, 0.35);
             display: none;
             align-items: center;
             justify-content: center;
@@ -465,10 +466,10 @@
         .edit-panel {
             width: 100%;
             max-width: 420px;
-            background: #fff5fb;
+            background: #fff9fc;
             border-radius: 20px;
-            border: 1px solid #ffc9e4;
-            box-shadow: 0 20px 48px rgba(112, 16, 61, 0.45);
+            border: 1px solid #ffe1f0;
+            box-shadow: 0 20px 48px rgba(150, 80, 120, 0.35);
             padding: 16px 16px 14px;
         }
 
@@ -504,7 +505,7 @@
 
         .edit-users-list::-webkit-scrollbar { width: 6px; }
         .edit-users-list::-webkit-scrollbar-thumb {
-            background: #ff9cc7;
+            background: #ffc5e0;
             border-radius: 999px;
         }
 
@@ -531,7 +532,7 @@
         .edit-input {
             flex: 1;
             border-radius: 999px;
-            border: 1px solid #ffc0df;
+            border: 1px solid #ffd6ea;
             padding: 0.32rem 0.7rem;
             font-size: 0.8rem;
             outline: none;
@@ -539,14 +540,14 @@
         }
 
         .edit-input:focus {
-            border-color: #ff6fa8;
-            box-shadow: 0 0 0 2px rgba(255, 152, 203, 0.4);
+            border-color: #ffb7d5;
+            box-shadow: 0 0 0 2px rgba(255, 183, 213, 0.5);
         }
 
         .btn-delete-inline {
             border-radius: 999px;
             border: 1px solid #fda4af;
-            background: #fff0f3;
+            background: #fff7f8;
             padding: 0.25rem 0.6rem;
             font-size: 0.75rem;
             color: #b91c1c;
@@ -569,7 +570,7 @@
         .link-mode-select {
             width: 100%;
             border-radius: 999px;
-            border: 1px solid #ffc0df;
+            border: 1px solid #ffd6ea;
             background: #fff;
             color: #3a1830;
             font-size: 0.75rem;
@@ -578,7 +579,7 @@
 
         .link-single-input {
             border-radius: 999px;
-            border: 1px solid #ffc0df;
+            border: 1px solid #ffd6ea;
             background: #fff;
             color: #3a1830;
             font-size: 0.75rem;
@@ -588,7 +589,7 @@
 
         .link-multi-textarea {
             border-radius: 10px;
-            border: 1px solid #ffc0df;
+            border: 1px solid #ffd6ea;
             background: #fff;
             color: #3a1830;
             font-size: 0.75rem;
@@ -624,21 +625,21 @@
         .btn-primary {
             border-radius: 999px;
             border: none;
-            background: linear-gradient(135deg, #ff6fa8, #ff93c0);
+            background: linear-gradient(135deg, #ffb7d5, #ffd0e5);
             padding: 0.38rem 1.1rem;
             font-size: 0.8rem;
             cursor: pointer;
             font-weight: 600;
             color: #fff;
-            box-shadow: 0 7px 16px rgba(223, 88, 146, 0.6);
+            box-shadow: 0 7px 16px rgba(210, 120, 160, 0.4);
         }
 
         .btn-primary:hover { filter: brightness(1.03); }
 
         .btn-add-user {
             border-radius: 999px;
-            border: 1px solid #ffb3d5;
-            background: linear-gradient(135deg, #ffedf7, #ffd3eb);
+            border: 1px solid #ffd4ea;
+            background: linear-gradient(135deg, #fff7fb, #ffe7f3);
             padding: 0.28rem 0.8rem;
             font-size: 0.78rem;
             cursor: pointer;
@@ -664,15 +665,15 @@
 
         @keyframes floatGlow {
             0% {
-                box-shadow: 0 9px 18px rgba(225,103,157,0.40);
+                box-shadow: 0 7px 16px rgba(212,135,169,0.35);
             }
             50% {
                 box-shadow:
-                    0 12px 24px rgba(225,103,157,0.55),
-                    0 0 14px rgba(255,130,190,0.45);
+                    0 11px 22px rgba(212,135,169,0.45),
+                    0 0 14px rgba(255,210,235,0.5);
             }
             100% {
-                box-shadow: 0 9px 18px rgba(225,103,157,0.40);
+                box-shadow: 0 7px 16px rgba(212,135,169,0.35);
             }
         }
 
@@ -855,9 +856,9 @@
                     });
                 }
 
-                // Migrasi lama dari shankaraUserNames kalau ada
+                // Migrasi lama dari sangkaraUserNames kalau sempat ada
                 try {
-                    const storedNames = JSON.parse(localStorage.getItem('shankaraUserNames') || '{}');
+                    const storedNames = JSON.parse(localStorage.getItem('sangkaraUserNames') || '{}');
                     if (storedNames && typeof storedNames === 'object') {
                         users.forEach(u => {
                             if (storedNames[u.id]) {
@@ -1198,4 +1199,3 @@
     </script>
 </body>
 </html>
-
