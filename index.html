@@ -161,7 +161,7 @@
 
         .top-actions {
             display: flex;
-            justify-content: flex-start;
+            justify-content: space-between;
             align-items: center;
             gap: 0.5rem;
             margin-bottom: 0.6rem;
@@ -181,6 +181,23 @@
             height: 6px;
             border-radius: 999px;
             background: var(--pink-deep);
+        }
+
+        /* BACK BUTTON (MAIN VIEW) */
+        .back-btn {
+            border-radius: 999px;
+            border: 1px solid #e3b6cf;
+            background: #fff;
+            padding: 0.3rem 0.8rem;
+            font-size: 0.78rem;
+            cursor: pointer;
+            color: #814461;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        .back-btn:hover {
+            background: #fff0f7;
         }
 
         /* TOMBOL EDIT USER DI POJOK KANAN ATAS (FIXED) */
@@ -259,7 +276,6 @@
             min-height: 86px;
             overflow: hidden;
 
-            /* animasi utama */
             opacity: 0;
             transform: translateY(18px) scale(0.97);
             box-shadow: 0 9px 18px rgba(225,103,157,0.40);
@@ -285,7 +301,6 @@
             pointer-events: none;
         }
 
-        /* RIPPLE CLICK */
         .user-card::after {
             content: "";
             position: absolute;
@@ -304,7 +319,6 @@
             animation: ripple 0.5s ease-out;
         }
 
-        /* HOVER GLOW */
         .user-card:hover {
             transform: translateY(-3px) scale(1.01);
             box-shadow:
@@ -414,7 +428,17 @@
         .edit-panel-sub {
             font-size: 0.8rem;
             color: #85556e;
-            margin-bottom: 0.7rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .edit-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            gap: 0.5rem;
+            font-size: 0.75rem;
+            color: #8b4e6c;
         }
 
         .edit-users-list {
@@ -491,6 +515,36 @@
 
         .btn-primary:hover { filter: brightness(1.03); }
 
+        .btn-add-user {
+            border-radius: 999px;
+            border: 1px solid #ffb3d5;
+            background: linear-gradient(135deg, #ffedf7, #ffd3eb);
+            padding: 0.28rem 0.8rem;
+            font-size: 0.78rem;
+            cursor: pointer;
+            color: #8b3258;
+            font-weight: 600;
+        }
+
+        .btn-add-user:hover {
+            filter: brightness(1.03);
+        }
+
+        .btn-delete-inline {
+            border-radius: 999px;
+            border: 1px solid #fda4af;
+            background: #fff0f3;
+            padding: 0.25rem 0.6rem;
+            font-size: 0.75rem;
+            color: #b91c1c;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .btn-delete-inline:hover {
+            background: #fee2e2;
+        }
+
         /* ANIMASI KEYFRAMES */
         @keyframes popIn {
             0% {
@@ -555,6 +609,14 @@
 
         <!-- MAIN VIEW -->
         <div id="main-view" class="fade-transition" style="display:none; opacity:0;">
+            <div class="top-actions">
+                <button id="back-btn" class="back-btn" type="button">← Kembali</button>
+                <div class="info-text">
+                    <span class="info-dot"></span>
+                    <span>Tap kartu user untuk membuka link survey</span>
+                </div>
+            </div>
+
             <div class="main-header">
                 <div class="main-pill">
                     <span>PROJECT SANGKARA</span>
@@ -565,13 +627,6 @@
                         <span class="clock-dot"></span>
                         <span id="datetime-text"></span>
                     </div>
-                </div>
-            </div>
-
-            <div class="top-actions">
-                <div class="info-text">
-                    <span class="info-dot"></span>
-                    <span>Tap kartu user untuk membuka link survey</span>
                 </div>
             </div>
 
@@ -588,9 +643,16 @@
         <div class="edit-panel">
             <div class="edit-panel-title">Edit Nama User</div>
             <div class="edit-panel-sub">
-                Gunakan untuk mengganti label <strong>User 1 – User 13</strong> sesuai kebutuhan.
+                Ganti label user, tambahkan, atau hapus user. Minimal harus ada 1 user.
             </div>
+
+            <div class="edit-toolbar">
+                <button id="add-user-btn" class="btn-add-user" type="button">＋ Tambah User</button>
+                <span>Perubahan hanya tersimpan di perangkat ini.</span>
+            </div>
+
             <div id="edit-users-list" class="edit-users-list"></div>
+
             <div class="edit-actions">
                 <button id="edit-cancel" class="btn-ghost" type="button">Batal</button>
                 <button id="edit-save" class="btn-primary" type="button">Simpan</button>
@@ -602,10 +664,12 @@
         document.addEventListener('DOMContentLoaded', () => {
             const SURVEY_LINK = "https://survey.xmfactory.com/survey?b=1025655&l=52472bf1b710780c";
             const PASSWORD_EDIT = "Aco123";
+            const STORAGE_KEY = "sangkaraUsers";
 
             const welcomePage = document.getElementById('welcome-page');
             const startBtn = document.getElementById('start-btn');
             const mainView = document.getElementById('main-view');
+            const backBtn = document.getElementById('back-btn');
             const usersGrid = document.getElementById('users-grid');
             const datetimeText = document.getElementById('datetime-text');
 
@@ -614,25 +678,51 @@
             const editUsersList = document.getElementById('edit-users-list');
             const editCancel = document.getElementById('edit-cancel');
             const editSave = document.getElementById('edit-save');
+            const addUserBtn = document.getElementById('add-user-btn');
 
-            // Data user default
-            const users = [];
-            for (let i = 1; i <= 13; i++) {
-                const id = `user${String(i).padStart(2, '0')}`;
-                users.push({
-                    id,
-                    name: `User ${i}`
-                });
+            let users = [];
+
+            function initUsers() {
+                const storedUsersRaw = localStorage.getItem(STORAGE_KEY);
+                if (storedUsersRaw) {
+                    try {
+                        const parsed = JSON.parse(storedUsersRaw);
+                        if (Array.isArray(parsed) && parsed.length > 0) {
+                            users = parsed;
+                            return;
+                        }
+                    } catch (e) {
+                        // fallback below
+                    }
+                }
+
+                // Default 13 user
+                users = [];
+                for (let i = 1; i <= 13; i++) {
+                    const id = `user${String(i).padStart(2, '0')}`;
+                    users.push({
+                        id,
+                        name: `User ${i}`
+                    });
+                }
+
+                // Migrasi lama (kalau ada sangkaraUserNames)
+                try {
+                    const storedNames = JSON.parse(localStorage.getItem('sangkaraUserNames') || '{}');
+                    if (storedNames && typeof storedNames === 'object') {
+                        users.forEach(u => {
+                            if (storedNames[u.id]) {
+                                u.name = storedNames[u.id];
+                            }
+                        });
+                    }
+                } catch (e) {}
+
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(users));
             }
 
-            // Load custom nama dari localStorage
-            const storedNames = JSON.parse(localStorage.getItem('sangkaraUserNames') || '{}');
-            if (storedNames && typeof storedNames === 'object') {
-                users.forEach(u => {
-                    if (storedNames[u.id]) {
-                        u.name = storedNames[u.id];
-                    }
-                });
+            function saveUsers() {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(users));
             }
 
             // Render kartu user
@@ -694,6 +784,18 @@
                 }, 400);
             });
 
+            // Tombol kembali (main view -> welcome page)
+            backBtn.addEventListener('click', () => {
+                mainView.style.opacity = '0';
+                setTimeout(() => {
+                    mainView.style.display = 'none';
+                    welcomePage.style.display = 'block';
+                    requestAnimationFrame(() => {
+                        welcomePage.style.opacity = '1';
+                    });
+                }, 400);
+            });
+
             // Buka panel edit (dengan password)
             editBtn.addEventListener('click', () => {
                 const pwd = prompt('Masukkan password untuk mengedit nama user:');
@@ -719,11 +821,40 @@
                             value="${user.name}"
                             maxlength="30"
                         />
+                        <button
+                            type="button"
+                            class="btn-delete-inline"
+                            data-id="${user.id}"
+                        >Hapus</button>
                     `;
                     editUsersList.appendChild(row);
                 });
                 editBackdrop.classList.add('show');
             }
+
+            // Tambah user
+            addUserBtn.addEventListener('click', () => {
+                const newIndex = users.length + 1;
+                const newUser = {
+                    id: `user${Date.now()}`,
+                    name: `User ${newIndex}`
+                };
+                users.push(newUser);
+                openEditPanel(); // refresh list
+            });
+
+            // Hapus user (delegasi event)
+            editUsersList.addEventListener('click', (e) => {
+                if (e.target.classList.contains('btn-delete-inline')) {
+                    const id = e.target.getAttribute('data-id');
+                    if (users.length <= 1) {
+                        alert('Minimal harus ada 1 user.');
+                        return;
+                    }
+                    users = users.filter(u => u.id !== id);
+                    openEditPanel();
+                }
+            });
 
             editCancel.addEventListener('click', () => {
                 editBackdrop.classList.remove('show');
@@ -731,25 +862,21 @@
 
             editSave.addEventListener('click', () => {
                 const inputs = editUsersList.querySelectorAll('.edit-input');
-                const newNames = {};
                 inputs.forEach(input => {
                     const id = input.getAttribute('data-id');
                     let value = input.value.trim();
-                    if (!value) {
-                        const index = users.findIndex(u => u.id === id);
-                        value = `User ${index + 1}`;
-                        input.value = value;
-                    }
-                    newNames[id] = value;
-                });
-
-                localStorage.setItem('sangkaraUserNames', JSON.stringify(newNames));
-                users.forEach(u => {
-                    if (newNames[u.id]) {
-                        u.name = newNames[u.id];
+                    const user = users.find(u => u.id === id);
+                    if (user) {
+                        if (!value) {
+                            const idx = users.indexOf(user);
+                            value = `User ${idx + 1}`;
+                            input.value = value;
+                        }
+                        user.name = value;
                     }
                 });
 
+                saveUsers();
                 renderUserGrid();
                 editBackdrop.classList.remove('show');
             });
@@ -762,6 +889,7 @@
             });
 
             // Inisialisasi
+            initUsers();
             renderUserGrid();
             updateDateTime();
             setInterval(updateDateTime, 1000);
