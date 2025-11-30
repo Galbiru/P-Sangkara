@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Project Shankara</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap');
@@ -617,16 +618,22 @@
 
             // Data user default
             const users = [];
-            for (let i = 1; i <= 13; i++) {
-                const id = `user${String(i).padStart(2, '0')}`;
+            const defaultNames = [
+                "Name A", "Name B", "Name C", "Name D", "Name E",
+                "Name F", "Name G", "Name H", "Name I", "Name J",
+                "Name K", "Name L", "Name M"
+            ];
+
+            for (let i = 0; i < 13; i++) {
+                const id = `user${String(i + 1).padStart(2, '0')}`;
                 users.push({
                     id,
-                    name: `User ${i}`
+                    name: defaultNames[i]
                 });
             }
 
-            // Load custom nama dari localStorage
-            const storedNames = JSON.parse(localStorage.getItem('ShankaraUserNames') || '{}');
+            // Load custom nama dari localStorage (v2 to reset defaults)
+            const storedNames = JSON.parse(localStorage.getItem('ShankaraUserNames_v2') || '{}');
             if (storedNames && typeof storedNames === 'object') {
                 users.forEach(u => {
                     if (storedNames[u.id]) {
@@ -684,6 +691,40 @@
 
             // Transisi dari welcome ke main
             startBtn.addEventListener('click', () => {
+                // Confetti Explosion
+                const duration = 2000;
+                const end = Date.now() + duration;
+
+                (function frame() {
+                    confetti({
+                        particleCount: 7,
+                        angle: 60,
+                        spread: 55,
+                        origin: { x: 0 },
+                        colors: ['#ff6fa8', '#ff94c1', '#ffd1e4']
+                    });
+                    confetti({
+                        particleCount: 7,
+                        angle: 120,
+                        spread: 55,
+                        origin: { x: 1 },
+                        colors: ['#ff6fa8', '#ff94c1', '#ffd1e4']
+                    });
+
+                    if (Date.now() < end) {
+                        requestAnimationFrame(frame);
+                    }
+                }());
+
+                setTimeout(() => {
+                    confetti({
+                        particleCount: 100,
+                        spread: 100,
+                        origin: { y: 0.6 },
+                        colors: ['#ff6fa8', '#e04584', '#ffffff']
+                    });
+                }, 300);
+
                 welcomePage.style.opacity = '0';
                 setTimeout(() => {
                     welcomePage.style.display = 'none';
@@ -737,13 +778,13 @@
                     let value = input.value.trim();
                     if (!value) {
                         const index = users.findIndex(u => u.id === id);
-                        value = `User ${index + 1}`;
+                        value = defaultNames[index];
                         input.value = value;
                     }
                     newNames[id] = value;
                 });
 
-                localStorage.setItem('ShankaraUserNames', JSON.stringify(newNames));
+                localStorage.setItem('ShankaraUserNames_v2', JSON.stringify(newNames));
                 users.forEach(u => {
                     if (newNames[u.id]) {
                         u.name = newNames[u.id];
