@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Project Shankara</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap');
@@ -108,6 +109,8 @@
         .main-header {
             text-align: center;
             margin-bottom: 0.9rem;
+            position: relative;
+            z-index: 10;
         }
 
         .main-pill {
@@ -130,6 +133,16 @@
             font-size: 1.55rem;
             font-weight: 700;
             color: #3a2237;
+        }
+
+        .daily-affirmation {
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.9rem;
+            color: #a05c7b;
+            font-style: italic;
+            margin: 0.2rem auto 0.5rem;
+            max-width: 80%;
+            line-height: 1.4;
         }
 
         .datetime-wrapper {
@@ -491,6 +504,41 @@
 
         .btn-primary:hover { filter: brightness(1.03); }
 
+        /* FAIRY DUST POINTER */
+        .fairy-dust {
+            position: fixed;
+            pointer-events: none;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: white;
+            box-shadow: 0 0 10px #ff6fa8, 0 0 20px #ff94c1;
+            animation: fadeOut 1s forwards;
+            z-index: 9999;
+        }
+
+        @keyframes fadeOut {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(0); opacity: 0; }
+        }
+
+        /* BACKGROUND FLOATING BUBBLES */
+        .floating-bubble {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 0 15px rgba(255, 182, 212, 0.2);
+            z-index: 0;
+            animation: floatUp linear infinite;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(100vh) scale(0); opacity: 0; }
+            20% { opacity: 0.6; }
+            80% { opacity: 0.6; }
+            100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+        }
+
         /* ANIMASI KEYFRAMES */
         @keyframes popIn {
             0% {
@@ -560,6 +608,7 @@
                     <span>Project SHANKARA</span>
                 </div>
                 <h1 class="main-title">User Survey Panel</h1>
+                <div id="daily-affirmation" class="daily-affirmation"></div>
                 <div class="datetime-wrapper">
                     <div class="datetime">
                         <span class="clock-dot"></span>
@@ -588,7 +637,7 @@
         <div class="edit-panel">
             <div class="edit-panel-title">Edit Nama User</div>
             <div class="edit-panel-sub">
-                Gunakan untuk mengganti label <strong>User 1 – User 13</strong> sesuai kebutuhan.
+                Gunakan untuk mengganti label <strong>User 1 – User 10</strong> sesuai kebutuhan.
             </div>
             <div id="edit-users-list" class="edit-users-list"></div>
             <div class="edit-actions">
@@ -617,16 +666,21 @@
 
             // Data user default
             const users = [];
-            for (let i = 1; i <= 13; i++) {
-                const id = `user${String(i).padStart(2, '0')}`;
+            const defaultNames = [
+                "Vitri", "Griselda", "Sri Suwarti", "Grace", "Diana Yusnita", 
+                "Lila", "Windy", "Fetty", "Erni", "Romlah"
+            ];
+
+            for (let i = 0; i < 10; i++) {
+                const id = `user${String(i + 1).padStart(2, '0')}`;
                 users.push({
                     id,
-                    name: `User ${i}`
+                    name: defaultNames[i]
                 });
             }
 
-            // Load custom nama dari localStorage
-            const storedNames = JSON.parse(localStorage.getItem('ShankaraUserNames') || '{}');
+            // Load custom nama dari localStorage (v2 to reset defaults)
+            const storedNames = JSON.parse(localStorage.getItem('ShankaraUserNames_v2') || '{}');
             if (storedNames && typeof storedNames === 'object') {
                 users.forEach(u => {
                     if (storedNames[u.id]) {
@@ -684,6 +738,40 @@
 
             // Transisi dari welcome ke main
             startBtn.addEventListener('click', () => {
+                // Confetti Explosion
+                const duration = 2000;
+                const end = Date.now() + duration;
+
+                (function frame() {
+                    confetti({
+                        particleCount: 7,
+                        angle: 60,
+                        spread: 55,
+                        origin: { x: 0 },
+                        colors: ['#ff6fa8', '#ff94c1', '#ffd1e4']
+                    });
+                    confetti({
+                        particleCount: 7,
+                        angle: 120,
+                        spread: 55,
+                        origin: { x: 1 },
+                        colors: ['#ff6fa8', '#ff94c1', '#ffd1e4']
+                    });
+
+                    if (Date.now() < end) {
+                        requestAnimationFrame(frame);
+                    }
+                }());
+
+                setTimeout(() => {
+                    confetti({
+                        particleCount: 100,
+                        spread: 100,
+                        origin: { y: 0.6 },
+                        colors: ['#ff6fa8', '#e04584', '#ffffff']
+                    });
+                }, 300);
+
                 welcomePage.style.opacity = '0';
                 setTimeout(() => {
                     welcomePage.style.display = 'none';
@@ -737,13 +825,13 @@
                     let value = input.value.trim();
                     if (!value) {
                         const index = users.findIndex(u => u.id === id);
-                        value = `User ${index + 1}`;
+                        value = defaultNames[index];
                         input.value = value;
                     }
                     newNames[id] = value;
                 });
 
-                localStorage.setItem('ShankaraUserNames', JSON.stringify(newNames));
+                localStorage.setItem('ShankaraUserNames_v2', JSON.stringify(newNames));
                 users.forEach(u => {
                     if (newNames[u.id]) {
                         u.name = newNames[u.id];
@@ -761,9 +849,68 @@
                 }
             });
 
+            // Daily Affirmations
+            const affirmations = [
+                "You are capable of amazing things.",
+                "Your potential is endless.",
+                "Radiate positivity today.",
+                "You are strong, confident, and unstoppable.",
+                "Believe in yourself and all that you are.",
+                "Today is a beautiful day to be alive.",
+                "You are enough, just as you are.",
+                "Embrace the magic within you.",
+                "Your smile lights up the world.",
+                "You are creating a life you love."
+            ];
+
+            function setDailyAffirmation() {
+                const affirmationEl = document.getElementById('daily-affirmation');
+                const randomAffirmation = affirmations[Math.floor(Math.random() * affirmations.length)];
+                affirmationEl.textContent = `“${randomAffirmation}”`;
+            }
+
+            // Fairy Dust Cursor
+            document.addEventListener('mousemove', (e) => {
+                const dust = document.createElement('div');
+                dust.classList.add('fairy-dust');
+                dust.style.left = e.pageX + 'px';
+                dust.style.top = e.pageY + 'px';
+                
+                // Randomize color slightly
+                const colors = ['#ff6fa8', '#ffd1e4', '#ffffff', '#fff5fb'];
+                dust.style.background = colors[Math.floor(Math.random() * colors.length)];
+                
+                document.body.appendChild(dust);
+                
+                setTimeout(() => {
+                    dust.remove();
+                }, 1000);
+            });
+
+            // Floating Bubbles Background
+            function createBubbles() {
+                const bubbleCount = 15;
+                for (let i = 0; i < bubbleCount; i++) {
+                    const bubble = document.createElement('div');
+                    bubble.classList.add('floating-bubble');
+                    
+                    const size = Math.random() * 60 + 20;
+                    bubble.style.width = size + 'px';
+                    bubble.style.height = size + 'px';
+                    
+                    bubble.style.left = Math.random() * 100 + 'vw';
+                    bubble.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                    bubble.style.animationDelay = (Math.random() * 5) + 's';
+                    
+                    document.body.appendChild(bubble);
+                }
+            }
+
             // Inisialisasi
             renderUserGrid();
             updateDateTime();
+            setDailyAffirmation();
+            createBubbles();
             setInterval(updateDateTime, 1000);
         });
     </script>
