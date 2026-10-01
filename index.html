@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Prameswari</title>
-    <!-- FontAwesome for icons -->
+    <title>Kalyndra Project</title>
+    <!-- FontAwesome & Google Fonts -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -14,7 +13,7 @@
             --primary-light: #A29BFE;
             --accent: #FD79A8;
             --bg-gradient: linear-gradient(135deg, #A8C0FF 0%, #3F2B96 100%);
-            --card-bg: rgba(255, 255, 255, 0.85);
+            --card-bg: rgba(255, 255, 255, 0.88);
             --text-color: #2D3436;
             --glass-border: rgba(255, 255, 255, 0.4);
         }
@@ -37,11 +36,117 @@
             position: relative;
         }
 
-        /* Floating Background Bubbles */
+        /* Container Card */
+        .card-container {
+            width: 100%;
+            max-width: 600px;
+            background: var(--card-bg);
+            backdrop-filter: blur(15px);
+            border-radius: 24px;
+            border: 1px solid var(--glass-border);
+            padding: 40px 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Halaman 1: Welcome */
+        #welcome-view {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 25px;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .welcome-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--primary);
+            line-height: 1.3;
+        }
+
+        .btn-next {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            border: none;
+            padding: 14px 32px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(108, 92, 231, 0.35);
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-next:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 12px 25px rgba(253, 121, 168, 0.45);
+        }
+
+        /* Halaman 2: Interviewer List */
+        #interviewer-view {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .page-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 25px;
+            border-bottom: 2px solid rgba(108, 92, 231, 0.15);
+            padding-bottom: 12px;
+        }
+
+        .interviewer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+        }
+
+        .interviewer-btn {
+            background: white;
+            color: var(--text-color);
+            border: 1px solid var(--glass-border);
+            padding: 14px 18px;
+            border-radius: 14px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            transition: all 0.25s ease;
+        }
+
+        .interviewer-btn:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(108, 92, 231, 0.3);
+        }
+
+        .interviewer-btn i {
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        .interviewer-btn:hover i {
+            opacity: 1;
+        }
+
+        /* Floating Bubbles Background */
         .floating-bubble {
             position: absolute;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.18);
             backdrop-filter: blur(5px);
             pointer-events: none;
             animation: floatUp 10s infinite ease-in-out;
@@ -54,454 +159,87 @@
             100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
         }
 
-        /* Fairy Dust Trail */
-        .fairy-dust {
-            position: fixed;
-            width: 6px;
-            height: 6px;
-            background: #FFEAA7;
-            border-radius: 50%;
-            pointer-events: none;
-            box-shadow: 0 0 8px #FD79A8, 0 0 12px #FFEAA7;
-            animation: fadeDust 1s forwards ease-out;
-            z-index: 9999;
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-
-        @keyframes fadeDust {
-            0% { opacity: 1; transform: scale(1); }
-            100% { opacity: 0; transform: scale(0.2) translateY(10px); }
-        }
-
-        /* Main Container */
-        .container {
-            width: 100%;
-            max-width: 1000px;
-            background: var(--card-bg);
-            backdrop-filter: blur(15px);
-            border-radius: 24px;
-            border: 1px solid var(--glass-border);
-            padding: 30px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-            position: relative;
-            z-index: 1;
-        }
-
-        /* Header */
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 25px;
-            flex-wrap: wrap;
-            gap: 15px;
-            border-bottom: 2px solid rgba(108, 92, 231, 0.1);
-            padding-bottom: 15px;
-        }
-
-        .brand-title {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--primary);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .edit-btn {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 12px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            box-shadow: 0 4px 10px rgba(108, 92, 231, 0.3);
-        }
-
-        .edit-btn:hover {
-            background: #5b4bc4;
-            transform: translateY(-2px);
-        }
-
-        .time-box {
-            text-align: right;
-            background: rgba(255, 255, 255, 0.6);
-            padding: 8px 15px;
-            border-radius: 12px;
-            border: 1px solid var(--glass-border);
-        }
-
-        .time-box .date { font-size: 0.85rem; color: #636e72; }
-        .time-box .clock { font-size: 1.1rem; font-weight: 600; color: var(--primary); }
-
-        /* Banner Affirmation */
-        .affirmation-banner {
-            background: linear-gradient(90deg, var(--primary-light), var(--accent));
-            color: white;
-            padding: 12px 20px;
-            border-radius: 16px;
-            text-align: center;
-            margin-bottom: 30px;
-            font-weight: 500;
-            box-shadow: 0 4px 15px rgba(253, 121, 168, 0.2);
-            font-style: italic;
-        }
-
-        /* Grid System */
-        .user-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-            gap: 20px;
-        }
-
-        .user-card {
-            background: rgba(255, 255, 255, 0.7);
-            border: 1px solid var(--glass-border);
-            border-radius: 18px;
-            padding: 20px 15px;
-            text-align: center;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .user-card:hover {
-            transform: translateY(-8px);
-            background: rgba(255, 255, 255, 0.95);
-            box-shadow: 0 10px 25px rgba(108, 92, 231, 0.2);
-            border-color: var(--primary-light);
-        }
-
-        .avatar {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--primary-light), var(--primary));
-            color: white;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 1.5rem;
-            margin-bottom: 12px;
-            box-shadow: 0 4px 10px rgba(108, 92, 231, 0.3);
-        }
-
-        .user-name {
-            font-size: 1rem;
-            font-weight: 600;
-            color: var(--text-color);
-            margin-bottom: 15px;
-            word-break: break-word;
-        }
-
-        .link-btn {
-            width: 100%;
-            padding: 8px;
-            background: var(--accent);
-            color: white;
-            text-decoration: none;
-            border-radius: 10px;
-            font-size: 0.85rem;
-            font-weight: 500;
-            transition: background 0.3s;
-            display: inline-block;
-        }
-
-        .link-btn:hover {
-            background: #e84393;
-        }
-
-        /* Modal Edit */
-        .modal-backdrop {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.4);
-            backdrop-filter: blur(4px);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-            z-index: 1000;
-        }
-
-        .modal-backdrop.show {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        .modal {
-            background: white;
-            border-radius: 20px;
-            padding: 25px;
-            width: 90%;
-            max-width: 500px;
-            max-height: 80vh;
-            overflow-y: auto;
-            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
-        }
-
-        .modal-title {
-            font-size: 1.3rem;
-            font-weight: 600;
-            color: var(--primary);
-            margin-bottom: 15px;
-        }
-
-        .edit-row {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 12px;
-        }
-
-        .edit-label {
-            width: 70px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: #636e72;
-        }
-
-        .edit-input {
-            flex: 1;
-            padding: 8px 12px;
-            border: 1px solid #dfe6e9;
-            border-radius: 8px;
-            outline: none;
-        }
-
-        .edit-input:focus {
-            border-color: var(--primary);
-        }
-
-        .modal-actions {
-            display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-            margin-top: 20px;
-        }
-
-        .modal-btn {
-            padding: 8px 16px;
-            border-radius: 8px;
-            border: none;
-            cursor: pointer;
-            font-weight: 500;
-        }
-
-        .btn-cancel { background: #dfe6e9; color: #636e72; }
-        .btn-save { background: var(--primary); color: white; }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <header>
-            <div class="brand-title">
-                <i class="fa-solid fa-sparkles"></i> Prameswari
-            </div>
-            <div class="header-actions">
-                <button class="edit-btn" id="editBtn">
-                    <i class="fa-solid fa-pen-to-square"></i> Edit Nama
-                </button>
-                <div class="time-box">
-                    <div class="date" id="current-date">-- ---- ----</div>
-                    <div class="clock" id="current-time">00:00:00 WIB</div>
-                </div>
-            </div>
-        </header>
-
-        <div class="affirmation-banner" id="daily-affirmation">
-            “Semoga harimu menyenangkan dan pekerjaan lancar!”
+    <div class="card-container">
+        <!-- Halaman 1: Welcome Screen -->
+        <div id="welcome-view">
+            <h1 class="welcome-title">Welcome to Kalyndra Project</h1>
+            <button class="btn-next" id="nextBtn">
+                Click for next <i class="fa-solid fa-arrow-right"></i>
+            </button>
         </div>
 
-        <div class="user-grid" id="userGrid">
-            <!-- User cards generated dynamically -->
-        </div>
-    </div>
-
-    <!-- Modal Edit Nama -->
-    <div class="modal-backdrop" id="editBackdrop">
-        <div class="modal">
-            <div class="modal-title">Edit Nama Pengguna</div>
-            <div id="editUsersList">
-                <!-- Inputs generated dynamically -->
-            </div>
-            <div class="modal-actions">
-                <button class="modal-btn btn-cancel" id="editCancel">Batal</button>
-                <button class="modal-btn btn-save" id="editSave">Simpan</button>
+        <!-- Halaman 2: Daftar Interviewer -->
+        <div id="interviewer-view">
+            <h2 class="page-title"><i class="fa-solid fa-user-group"></i> Pilih Interviewer</h2>
+            <div class="interviewer-grid">
+                <a href="https://survey.xmfactory.com/survey?b=1028876&l=8e75e4f6954cd665" class="interviewer-btn">
+                    <span>1. Sri Suwarti</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
+                <a href="https://survey.xmfactory.com/survey?b=1028876&l=8e75e4f6954cd665" class="interviewer-btn">
+                    <span>2. Bebi Agustin</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
+                <a href="https://survey.xmfactory.com/survey?b=1028876&l=8e75e4f6954cd665" class="interviewer-btn">
+                    <span>3. Evie Bungai</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
+                <a href="https://survey.xmfactory.com/survey?b=1028876&l=8e75e4f6954cd665" class="interviewer-btn">
+                    <span>4. Fransiska</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
+                <a href="https://survey.xmfactory.com/survey?b=1028876&l=8e75e4f6954cd665" class="interviewer-btn">
+                    <span>5. Hermes</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
+                <a href="https://survey.xmfactory.com/survey?b=1028876&l=8e75e4f6954cd665" class="interviewer-btn">
+                    <span>6. Lisa Halim</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
+                <a href="https://survey.xmfactory.com/survey?b=1028876&l=8e75e4f6954cd665" class="interviewer-btn">
+                    <span>7. Putri Wahyu</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
+                <a href="https://survey.xmfactory.com/survey?b=1028876&l=8e75e4f6954cd665" class="interviewer-btn">
+                    <span>8. Dewi Chovizo</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
             </div>
         </div>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Data awal 10 User & Link khusus
-            const defaultUsers = [
-                { id: "1", name: "User 1", link: "https://ee-eu.kobotoolbox.org/x/R5yFqXQO" },
-                { id: "2", name: "User 2", link: "https://ee-eu.kobotoolbox.org/x/p17iAt2V" },
-                { id: "3", name: "User 3", link: "https://ee-eu.kobotoolbox.org/x/QxAn43jM" },
-                { id: "4", name: "User 4", link: "https://ee-eu.kobotoolbox.org/x/6rIsUuYy" },
-                { id: "5", name: "User 5", link: "https://ee-eu.kobotoolbox.org/x/xO9yK8hK" },
-                { id: "6", name: "User 6", link: "https://ee-eu.kobotoolbox.org/x/H9sI7h9D" },
-                { id: "7", name: "User 7", link: "https://ee-eu.kobotoolbox.org/x/t8G44mX8" },
-                { id: "8", name: "User 8", link: "https://ee-eu.kobotoolbox.org/x/vU4pT60x" },
-                { id: "9", name: "User 9", link: "https://ee-eu.kobotoolbox.org/x/hC703CIn" },
-                { id: "10", name: "User 10", link: "https://ee-eu.kobotoolbox.org/x/Y8p50PUp" }
-            ];
+            const nextBtn = document.getElementById('nextBtn');
+            const welcomeView = document.getElementById('welcome-view');
+            const interviewerView = document.getElementById('interviewer-view');
 
-            let users = [...defaultUsers];
+            // Navigasi ke halaman Interviewer
+            nextBtn.addEventListener('click', () => {
+                welcomeView.style.display = 'none';
+                interviewerView.style.display = 'block';
+            });
 
-            // Load nama tersimpan dari LocalStorage jika ada
-            const savedNames = JSON.parse(localStorage.getItem('PrameswariUserNames') || '{}');
-            users = users.map(u => ({
-                ...u,
-                name: savedNames[u.id] || u.name
-            }));
-
-            const userGrid = document.getElementById('userGrid');
-            const editBtn = document.getElementById('editBtn');
-            const editBackdrop = document.getElementById('editBackdrop');
-            const editUsersList = document.getElementById('editUsersList');
-            const editCancel = document.getElementById('editCancel');
-            const editSave = document.getElementById('editSave');
-
-            // Render Grid User Cards
-            function renderUserGrid() {
-                userGrid.innerHTML = '';
-                users.forEach((user) => {
-                    const card = document.createElement('div');
-                    card.className = 'user-card';
-                    card.innerHTML = `
-                        <div class="avatar"><i class="fa-solid fa-user"></i></div>
-                        <div class="user-name">${user.name}</div>
-                        <a href="${user.link}" target="_blank" rel="noopener noreferrer" class="link-btn">
-                            Buka Link <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                        </a>
-                    `;
-                    userGrid.appendChild(card);
-                });
+            // Animasi Floating Bubbles di Background
+            for (let i = 0; i < 12; i++) {
+                const bubble = document.createElement('div');
+                bubble.className = 'floating-bubble';
+                const size = Math.random() * 30 + 10;
+                bubble.style.width = `${size}px`;
+                bubble.style.height = `${size}px`;
+                bubble.style.left = `${Math.random() * 100}vw`;
+                bubble.style.animationDuration = `${Math.random() * 8 + 6}s`;
+                bubble.style.animationDelay = `${Math.random() * 5}s`;
+                document.body.appendChild(bubble);
             }
-
-            // Realtime Date & Time
-            function updateDateTime() {
-                const now = new Date();
-                const optionsDate = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', timeZone: 'Asia/Jakarta' };
-                const dateStr = now.toLocaleDateString('id-ID', optionsDate);
-                const timeStr = now.toLocaleTimeString('id-ID', { timeZone: 'Asia/Jakarta' }) + ' WIB';
-
-                document.getElementById('current-date').textContent = dateStr;
-                document.getElementById('current-time').textContent = timeStr;
-            }
-
-            // Edit Button Handler (dengan Verifikasi Password)
-            editBtn.addEventListener('click', () => {
-                const password = prompt('Masukkan password untuk mengedit nama user:');
-                if (password !== 'Aco123') {
-                    alert('Password salah.');
-                    return;
-                }
-
-                // Render daftar input untuk modal edit
-                editUsersList.innerHTML = '';
-                users.forEach((user, index) => {
-                    const row = document.createElement('div');
-                    row.className = 'edit-row';
-                    row.innerHTML = `
-                        <span class="edit-label">User ${index + 1}</span>
-                        <input type="text" class="edit-input" data-id="${user.id}" value="${user.name}">
-                    `;
-                    editUsersList.appendChild(row);
-                });
-
-                editBackdrop.classList.add('show');
-            });
-
-            editCancel.addEventListener('click', () => {
-                editBackdrop.classList.remove('show');
-            });
-
-            editSave.addEventListener('click', () => {
-                const inputs = editUsersList.querySelectorAll('.edit-input');
-                const newStoredNames = {};
-
-                inputs.forEach(input => {
-                    const id = input.getAttribute('data-id');
-                    const val = input.value.trim();
-                    if (val) {
-                        const targetUser = users.find(u => u.id === id);
-                        if (targetUser) {
-                            targetUser.name = val;
-                            newStoredNames[id] = val;
-                        }
-                    }
-                });
-
-                localStorage.setItem('PrameswariUserNames', JSON.stringify(newStoredNames));
-                renderUserGrid();
-                editBackdrop.classList.remove('show');
-            });
-
-            // Efek Fairy Dust pada pergerakan mouse
-            document.addEventListener('mousemove', (e) => {
-                if (Math.random() < 0.2) { // Membatasi jumlah partikel agar ringan
-                    const dust = document.createElement('div');
-                    dust.className = 'fairy-dust';
-                    dust.style.left = e.clientX + 'px';
-                    dust.style.top = e.clientY + 'px';
-                    document.body.appendChild(dust);
-
-                    setTimeout(() => {
-                        dust.remove();
-                    }, 1000);
-                }
-            });
-
-            // Efek Floating Bubbles di Background
-            function createFloatingBubbles() {
-                for (let i = 0; i < 15; i++) {
-                    const bubble = document.createElement('div');
-                    bubble.className = 'floating-bubble';
-                    const size = Math.random() * 30 + 10;
-                    bubble.style.width = `${size}px`;
-                    bubble.style.height = `${size}px`;
-                    bubble.style.left = `${Math.random() * 100}vw`;
-                    bubble.style.animationDuration = `${Math.random() * 8 + 6}s`;
-                    bubble.style.animationDelay = `${Math.random() * 5}s`;
-                    document.body.appendChild(bubble);
-                }
-            }
-
-            // Daily Affirmation
-            const affirmations = [
-                "“Semoga harimu menyenangkan dan pekerjaan lancar!”",
-                "“Tetap semangat, kamu melakukan pekerjaan yang luar biasa!”",
-                "“Satu per satu survey selesai dengan baik hari ini.”",
-                "“Fokus, teliti, dan hasil yang memuaskan!”"
-            ];
-            const randomAffirmation = affirmations[Math.floor(Math.random() * affirmations.length)];
-            const affirmationEl = document.getElementById('daily-affirmation');
-            if (affirmationEl) affirmationEl.textContent = randomAffirmation;
-
-            // Inisialisasi awal
-            renderUserGrid();
-            updateDateTime();
-            setInterval(updateDateTime, 1000);
-            createFloatingBubbles();
         });
     </script>
 </body>
